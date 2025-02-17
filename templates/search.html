@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="/static/css/search.css">
+    <link rel="icon" href="/static/img/2.png">
+</head>
+<body>
+    <div class="container">
+        <div id="toast" class="toast"></div>
+        <h1 id="search-results-for-{{.Query}}" class="page-title">Search Results for "{{.Query}}"</h1>
+        
+        <div class="filters">
+            <form id="filterForm" method="GET" action="/search">
+                <input type="hidden" name="query" value="{{.Query}}">
+                <div class="filter-group">
+                    <div class="filter-item">
+                        <label for="startDate">From Date:</label>
+                        <input type="date" id="startDate" name="startDate" value="{{.Filters.StartDate}}">
+                    </div>
+                    <div class="filter-item">
+                        <label for="endDate">To Date:</label>
+                        <input type="date" id="endDate" name="endDate" value="{{.Filters.EndDate}}">
+                    </div>
+<div class="filter-item duration-filter">
+    <label for="minDuration">Min Duration:</label>
+    <div class="duration-inputs">
+        <input type="number" id="minDurationMinutes" 
+            min="0" max="59" 
+            placeholder="Min"
+            oninput="updateDuration('min')"
+            value="{{call .DurationMinutes .Filters.MinDuration}}">
+        <span>:</span>
+        <input type="number" id="minDurationSeconds" 
+            min="0" max="59" 
+            placeholder="Sec"
+            oninput="updateDuration('min')"
+            value="{{call .DurationSeconds .Filters.MinDuration}}">
+        <input type="hidden" id="minDuration" name="minDuration" value="{{.Filters.MinDuration}}">
+    </div>
+</div>
+
+<div class="filter-item duration-filter">
+    <label for="maxDuration">Max Duration:</label>
+    <div class="duration-inputs">
+        <input type="number" id="maxDurationMinutes" 
+            min="0" max="59" 
+            placeholder="Min"
+            oninput="updateDuration('max')"
+            value="{{call .DurationMinutes .Filters.MaxDuration}}">
+        <span>:</span>
+        <input type="number" id="maxDurationSeconds" 
+            min="0" max="59" 
+            placeholder="Sec"
+            oninput="updateDuration('max')"
+            value="{{call .DurationSeconds .Filters.MaxDuration}}">
+        <input type="hidden" id="maxDuration" name="maxDuration" value="{{.Filters.MaxDuration}}">
+    </div>
+</div>
+                    
+                    <div class="filter-item">
+                        <label for="sortBy">Sort By:</label>
+                        <select id="sortBy" name="sortBy">
+                            <option value="date" {{if eq .Filters.SortBy "date"}}selected{{end}}>Release Date</option>
+                            <option value="title" {{if eq .Filters.SortBy "title"}}selected{{end}}>Title</option>
+                            <option value="artist" {{if eq .Filters.SortBy "artist"}}selected{{end}}>Artist</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="sortOrder">Order:</label>
+                        <select id="sortOrder" name="sortOrder">
+                            <option value="asc" {{if eq .Filters.SortOrder "asc"}}selected{{end}}>Ascending</option>
+                            <option value="desc" {{if eq .Filters.SortOrder "desc"}}selected{{end}}>Descending</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="apply-filters">Apply Filters</button>
+            </form>
+        </div>
+
+        <div class="results-grid">
+            {{ range .Songs }}
+            <div class="song-card">
+                <div class="song-cover">
+                    {{if .CoverURL}}
+                        <img src="{{.CoverURL}}" alt="Album Cover" class="cover-image">
+                    {{else}}
+                        <div class="no-cover-placeholder">No Cover</div>
+                    {{end}}
+                </div>
+                <div class="song-details">
+                    <h2>{{.Title}}</h2>
+                    <p>{{.Artist}}</p>
+                    <p class="release-date">Released: {{.FormattedReleaseDate}}</p>
+                    <p class="duration">Duration: {{.FormattedDuration}}</p>
+                </div>
+                <div class="song-actions">
+                    <a href="/lyrics?id={{.ID}}&title={{.Title}}&artist={{.Artist}}&query={{$.Query}}&page={{$.CurrentPage}}" class="btn btn-lyrics">View Lyrics</a>
+                    <a href="/add-to-playlist?id={{.ID}}&title={{.Title}}&artist={{.Artist}}&query={{$.Query}}&page={{$.CurrentPage}}" class="btn btn-add-playlist">Add to Playlist</a>
+                </div>
+            </div>
+        {{ end }}
+        </div>
+        <div class="pagination">
+            {{if gt .CurrentPage 1}}
+                <a href="/search?query={{.Query}}&page={{minus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}" class="btn btn-pagination">Previous</a>
+            {{end}}
+            <a href="/" class="btn btn-back">Go Home</a>
+            {{if lt .CurrentPage .TotalPages}}
+                <a href="/search?query={{.Query}}&page={{plus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}" class="btn btn-pagination">Next</a>
+            {{end}}
+        </div>
+        
+        
+        
+        <div class="page-info">
+            Page {{.CurrentPage}} of {{.TotalPages}} (Total Results: {{.TotalResults}})
+        </div>
+    </div>
+    <script src="/static/js/search.js"></script>
+</body>
+</html>
