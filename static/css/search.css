@@ -14,15 +14,9 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
-.page-title {
-    text-align: center;
-    color: #3b82f6;
-    margin-bottom: 20px;
-}
-
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     padding: 20px;
 }
@@ -34,6 +28,7 @@ body {
     border-radius: 8px;
     overflow: hidden;
     height: 300px;
+    width: 100%;
 }
 
 .flip-card-inner {
@@ -126,7 +121,7 @@ body {
 }
 
 .btn-lyrics {
-    background-color: #2563eb;
+    background-color: #663399;
     color: white;
     padding: 12px 24px;
     text-decoration: none;
@@ -139,7 +134,7 @@ body {
 }
 
 .btn-lyrics:hover {
-    background-color: #1e40af;
+    background-color: #4B0082;
     transform: translateY(-2px);
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
@@ -158,6 +153,30 @@ body {
     background-color: #374151;
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.btn-add-playlist {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.btn-add-playlist:hover {
+    background-color: #d97706;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-remove-playlist {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-remove-playlist:hover {
+    background-color: #dc2626;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .btn-back {
@@ -195,25 +214,15 @@ body {
     display: flex;
     align-items: flex-end;
     gap: 20px;
-    margin-bottom: 15px;
-    flex-wrap: wrap; 
-}
-
-.sort-by-order-group {
-    display: flex;
-    gap: 20px; 
-    margin-bottom: 15px; 
-}
-
-.sort-by-order-group .filter-item {
-    flex: 1; 
-    min-width: 0; 
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
 }
 
 .filter-item {
     flex: 1;
     min-width: 150px;
-    margin-bottom: 10px; 
+    max-width: calc(16.666% - 17px);
 }
 
 .filter-item label {
@@ -224,19 +233,32 @@ body {
 }
 
 .filter-item select,
-.filter-item input {
+.filter-item input[type="date"],
+.filter-item input[type="number"],
+.page-inputs .page-input {
     width: 100%;
     padding: 8px;
+    height: 36px;
     border-radius: 4px;
     border: 1px solid #4a5568;
     background-color: #374151;
     color: #e0e0e0;
     font-size: 14px;
+    box-sizing: border-box;
 }
 
-.filter-item select option {
-    background-color: #374151;
-    color: #e0e0e0;
+.filter-item select {
+    width: 100%;
+}
+
+.page-inputs {
+    display: flex;
+    align-items: center;
+}
+
+.page-inputs .page-input {
+    width: 100%;
+    margin: 0;
 }
 
 .apply-filters {
@@ -247,7 +269,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 14px; 
+    font-size: 14px;
     width: 100%;
     margin-top: 10px;
 }
@@ -257,21 +279,114 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
+
+.duration-inputs.combined-box {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.duration-inputs.combined-box input {
+    width: 45%;
+    height: 36px;
+    padding: 8px;
+    font-size: 0.9em;
+    border: 1px solid #4a5568;
+    border-radius: 4px;
+    text-align: center;
+    background-color: #374151;
+    color: #e0e0e0;
+    box-sizing: border-box;
+}
+
+.duration-inputs.combined-box input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.duration-inputs.combined-box span {
+    font-size: 0.9em;
+    color: #e0e0e0;
+    padding: 0 2px;
+}
+
+.duration-inputs.combined-box input:hover {
+    border-color: #999;
+}
+
+
+.sort-by-order-group {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.sort-by-order-group .filter-item {
+    flex: 1;
+    min-width: 200px;
+    max-width: calc(50% - 10px);
+}
+
+.lyrics-page-group {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.lyrics-page-group .filter-item {
+    flex: 1;
+    min-width: 150px;
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    z-index: 1000;
+    display: none;
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.success {
+    background-color: #22c55e;
+}
+
+.toast.error {
+    background-color: #ef4444;
+}
+
+.toast.info {
+    background-color: #3b82f6;
+}
+
 @media (max-width: 768px) {
     .filter-group {
         flex-direction: column;
+        gap: 15px;
     }
 
     .sort-by-order-group {
         flex-direction: column;
     }
 
-    .filter-item {
+    .lyrics-page-group {
+        flex-direction: column;
+    }
+
+    .filter-item,
+    .sort-by-order-group .filter-item {
         min-width: 100%;
+        max-width: 100%;
     }
 
     .apply-filters {
-        width: auto;
+        width: 100%;
     }
-
 }

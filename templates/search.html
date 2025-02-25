@@ -10,12 +10,10 @@
     <div class="container">
         <div id="toast" class="toast"></div>
         <h1 id="search-results-for-{{.Query}}" class="page-title">Search Results for "{{.Query}}"</h1>
-        
         <div class="filters">
             <form id="filterForm" method="GET" action="/search">
                 <input type="hidden" name="query" value="{{.Query}}">
                 
-            
                 <div class="filter-group">
                     <div class="filter-item">
                         <label for="startDate">From Date:</label>
@@ -27,30 +25,42 @@
                     </div>
                     <div class="filter-item duration-filter">
                         <label for="minDuration">Min Duration:</label>
-                        <div class="duration-inputs">
-                            <input type="number" id="minDurationMinutes" min="0" max="59" placeholder="Min" oninput="updateDuration('min')" value="{{call .DurationMinutes .Filters.MinDuration}}">
+                        <div class="duration-inputs combined-box">
+                            <input type="number" id="minDurationMinutes" min="0" max="59" placeholder="min" 
+                                oninput="updateDuration('min')" value="{{call .DurationMinutes .Filters.MinDuration}}">
                             <span>:</span>
-                            <input type="number" id="minDurationSeconds" min="0" max="59" placeholder="Sec" oninput="updateDuration('min')" value="{{call .DurationSeconds .Filters.MinDuration}}">
+                            <input type="number" id="minDurationSeconds" min="0" max="59" placeholder="sec" 
+                                oninput="updateDuration('min')" value="{{call .DurationSeconds .Filters.MinDuration}}">
                             <input type="hidden" id="minDuration" name="minDuration" value="{{.Filters.MinDuration}}">
                         </div>
                     </div>
                     <div class="filter-item duration-filter">
                         <label for="maxDuration">Max Duration:</label>
-                        <div class="duration-inputs">
-                            <input type="number" id="maxDurationMinutes" min="0" max="59" placeholder="Min" oninput="updateDuration('max')" value="{{call .DurationMinutes .Filters.MaxDuration}}">
+                        <div class="duration-inputs combined-box">
+                            <input type="number" id="maxDurationMinutes" min="0" max="59" placeholder="min" 
+                                oninput="updateDuration('max')" value="{{call .DurationMinutes .Filters.MaxDuration}}">
                             <span>:</span>
-                            <input type="number" id="maxDurationSeconds" min="0" max="59" placeholder="Sec" oninput="updateDuration('max')" value="{{call .DurationSeconds .Filters.MaxDuration}}">
+                            <input type="number" id="maxDurationSeconds" min="0" max="59" placeholder="sec" 
+                                oninput="updateDuration('max')" value="{{call .DurationSeconds .Filters.MaxDuration}}">
                             <input type="hidden" id="maxDuration" name="maxDuration" value="{{.Filters.MaxDuration}}">
                         </div>
                     </div>
                     <div class="filter-item">
-                        <label for="pageNumber">Page ({{.TotalPages}} pages)</label>
+                        <label for="lyricsFilter">Lyrics:</label>
+                        <select id="lyricsFilter" name="lyricsFilter">
+                            <option value="" {{if eq .Filters.LyricsFilter ""}}selected{{end}}>All Songs</option>
+                            <option value="with_lyrics" {{if eq .Filters.LyricsFilter "with_lyrics"}}selected{{end}}>With Lyrics</option>
+                            <option value="without_lyrics" {{if eq .Filters.LyricsFilter "without_lyrics"}}selected{{end}}>Without Lyrics</option>
+                        </select>
+                    </div>
+                    <div class="filter-item">
+                        <label for="pageNumber">Page (66 pages)</label>
                         <div class="page-inputs">
-                            <input type="number" id="pageNumber" name="page" min="1" max="{{.TotalPages}}" value="{{.CurrentPage}}" class="page-input">
+                            <input type="number" id="pageNumber" name="page" min="1" max="66" value="{{.CurrentPage}}" class="page-input">
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="sort-by-order-group">
                     <div class="filter-item">
                         <label for="sortBy">Sort By:</label>
@@ -68,14 +78,14 @@
                         </select>
                     </div>
                 </div>
-            
+                
                 <button type="submit" class="apply-filters">Apply Filters</button>
             </form>
+        </div>
         <div class="results-grid">
             {{ range .Songs }}
             <div class="song-card" onclick="flipCard(this)">
                 <div class="flip-card-inner">
-                
                     <div class="flip-card-front">
                         <div class="song-cover">
                             {{if .CoverURL}}
@@ -86,7 +96,6 @@
                         </div>
                         <h2>{{.Title}}</h2>
                     </div>
-        
                     <div class="flip-card-back">
                         <div class="song-details">
                             <h2>{{.Title}}</h2>
@@ -95,7 +104,12 @@
                             <p class="duration">Duration: {{.FormattedDuration}}</p>
                         </div>
                         <div class="song-actions">
-                            <a href="/lyrics?id={{.ID}}&title={{.Title}}&artist={{.Artist}}&query={{$.Query}}&page={{$.CurrentPage}}" class="btn btn-lyrics">View Lyrics</a>
+                            <a href="/lyrics?id={{.ID}}&title={{.Title}}&artist={{.Artist}}&query={{$.Query}}&page={{$.CurrentPage}}" class="btn btn-lyrics">Lyrics</a>
+                            {{if .InPlaylist}}
+                                <a href="/remove-from-playlist?id={{.ID}}" class="btn btn-remove-playlist">Remove</a>
+                            {{else}}
+                                <a href="/add-to-playlist?id={{.ID}}&title={{urlquery .Title}}&artist={{urlquery .Artist}}" class="btn btn-add-playlist">Add</a>
+                            {{end}}
                         </div>
                     </div>
                 </div>
@@ -104,18 +118,18 @@
         </div>
         <div class="pagination">
             {{if gt .CurrentPage 1}}
-                <a href="/search?query={{.Query}}&page={{minus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}" class="btn btn-pagination">Previous</a>
+                <a href="/search?query={{.Query}}&page={{minus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}&lyricsFilter={{.Filters.LyricsFilter}}" class="btn btn-pagination">Previous</a>
             {{end}}
             <a href="/" class="btn btn-back">Go Home</a>
             {{if lt .CurrentPage .TotalPages}}
-                <a href="/search?query={{.Query}}&page={{plus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}" class="btn btn-pagination">Next</a>
+                <a href="/search?query={{.Query}}&page={{plus .CurrentPage 1}}&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}&lyricsFilter={{.Filters.LyricsFilter}}" class="btn btn-pagination">Next</a>
             {{end}}
             {{if eq .TotalPages 0}}
-                <a href="/search?query={{.Query}}&page=1&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}" class="btn btn-pagination">Next</a>
+                <a href="/search?query={{.Query}}&page=1&startDate={{.Filters.StartDate}}&endDate={{.Filters.EndDate}}&sortBy={{.Filters.SortBy}}&sortOrder={{.Filters.SortOrder}}&minDuration={{.Filters.MinDuration}}&maxDuration={{.Filters.MaxDuration}}&lyricsFilter={{.Filters.LyricsFilter}}" class="btn btn-pagination">Next</a>
             {{end}}
         </div>
         <div class="page-info">
-            Page {{.CurrentPage}} of {{.TotalPages}} (Total Results: {{.TotalResults}}, Results Per Page: 8)
+            Page {{.CurrentPage}} of 66 (Total Results: 990, Results Per Page: 15)
         </div>
     </div>
     <script src="/static/js/search.js"></script>
