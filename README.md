@@ -55,7 +55,7 @@ go run main.go
 ## Structure
 
 ```
-harmonify-public/
+Harmonify/
     ├── README.md
     ├── go.mod
     ├── main.go

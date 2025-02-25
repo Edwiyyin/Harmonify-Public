@@ -96,4 +96,38 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
+
+    document.getElementById('minDurationMinutes').addEventListener('input', () => updateDuration('min'));
+    document.getElementById('minDurationSeconds').addEventListener('input', () => updateDuration('min'));
+    document.getElementById('maxDurationMinutes').addEventListener('input', () => updateDuration('max'));
+    document.getElementById('maxDurationSeconds').addEventListener('input', () => updateDuration('max'));
+
+    document.getElementById('filterForm').addEventListener('submit', function (e) {
+        updateDuration('min');
+        updateDuration('max');
+    });
+
+    document.getElementById('clearFilters').addEventListener('click', function () {
+        document.getElementById('startDate').value = '';
+        document.getElementById('endDate').value = '';
+        document.getElementById('minDurationMinutes').value = '';
+        document.getElementById('minDurationSeconds').value = '';
+        document.getElementById('maxDurationMinutes').value = '';
+        document.getElementById('maxDurationSeconds').value = '';
+        document.getElementById('minDuration').value = '0';
+        document.getElementById('maxDuration').value = '0';
+        document.getElementById('lyricsFilter').value = '';
+        document.getElementById('playlistFilter').value = 'all';
+        document.getElementById('sortOrder').value = 'asc';
+        document.getElementById('sortBy').value = 'date';
+
+        document.getElementById('filterForm').submit();
+    });
 });
+
+function updateDuration(type) {
+    const minutes = parseInt(document.getElementById(`${type}DurationMinutes`).value) || 0;
+    const seconds = parseInt(document.getElementById(`${type}DurationSeconds`).value) || 0;
+    const totalMilliseconds = (minutes * 60 + seconds) * 1000;
+    document.getElementById(`${type}Duration`).value = totalMilliseconds;
+}

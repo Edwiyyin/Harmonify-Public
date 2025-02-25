@@ -14,11 +14,30 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 
+.page-title {
+    color: #2563eb;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
 .results-grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 20px;
     padding: 20px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 40px; 
+    font-size: 2em; 
+    color: #e0e0e0;
+    background-color: #3d3d3d;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .song-card {
@@ -194,6 +213,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    gap: 10px;
 }
 
 .page-info {
@@ -261,21 +281,45 @@ body {
     margin: 0;
 }
 
-.apply-filters {
-    background: #2563eb;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
+.filter-buttons {
+    display: flex;
     width: 100%;
-    margin-top: 10px;
+    gap: 10px;
+    margin-top: 20px; 
+}
+
+.apply-filters {
+    flex: 3; 
+    background-color: #663399;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
 }
 
 .apply-filters:hover {
-    background: #1e40af;
+    background: #4B0082;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.clear-filters {
+    flex: 1; 
+    background-color: #f59e0b;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;;
+}
+
+.clear-filters:hover {
+    background-color: #d97706;
     transform: translateY(-2px);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
