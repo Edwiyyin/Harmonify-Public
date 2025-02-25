@@ -55,42 +55,43 @@ go run main.go
 ## Structure
 
 ```
-HARMONIFY/
-├── src/
-│   ├── api/
-│   │   ├── api.go
-│   │   ├── apicalc.go
-│   ├── calc/
-│   │   ├── calc.go
-│   ├── handlers/
-│   │   ├── handle.go
-├── static/
-│   ├── css/
-│   │   ├── faq.css
-│   │   ├── home.css
-│   │   ├── lyrics.css
-│   │   ├── playlist.css
-│   │   ├── search.css
-│   ├── img/
-│   ├── js/
-│   │   ├── home.js
-│   │   ├── lyrics.js
-│   │   ├── playlist.js
-│   │   ├── search.js
-├── templates/
-│   ├── error.html
-│   ├── faq.html
-│   ├── home.html
-│   ├── lyrics.html
-│   ├── playlist-lyrics.html
-│   ├── playlist.html
-│   ├── search.html
-├── .gitattributes
-├── config.json
-├── go.mod
-├── main.go
-├── playlist.json
-├── README.md
+harmonify-public/
+    ├── README.md
+    ├── go.mod
+    ├── main.go
+    ├── playlist.json
+    ├── src/
+    │   ├── api/
+    │   │   ├── api.go
+    │   │   ├── apicalc.go
+    │   │   └── struct.go
+    │   ├── calc/
+    │   │   └── calc.go
+    │   └── handlers/
+    │       ├── handecalc.go
+    │       └── handle.go
+    ├── static/
+    │   ├── css/
+    │   │   ├── faq.css
+    │   │   ├── home.css
+    │   │   ├── lyrics.css
+    │   │   ├── playlist.css
+    │   │   └── search.css
+    │   ├── img/
+    │   └── js/
+    │       ├── home.js
+    │       ├── lyrics.js
+    │       ├── playlist.js
+    │       └── search.js
+    └── templates/
+        ├── error.html
+        ├── faq.html
+        ├── home.html
+        ├── lyrics.html
+        ├── playlist-lyrics.html
+        ├── playlist.html
+        └── search.html
+
 
 ```
 
