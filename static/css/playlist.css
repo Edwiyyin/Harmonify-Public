@@ -134,7 +134,7 @@ body {
 }
 
 .btn-lyrics:hover {
-    background-color: #4B0082;
+    background-color: #4b0082;
     transform: translateY(-1px);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -152,11 +152,14 @@ body {
 
 .no-playlist-items {
     text-align: center;
-    color: #9ca3af;
-    margin-top: 20px;
-    padding: 40px;
-    background-color: #2d2d2d;
+    padding: 40px; 
+    font-size: 2em; 
+    color: #e0e0e0;
+    background-color: #3d3d3d;
     border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .toast {
@@ -173,7 +176,7 @@ body {
 }
 
 .toast.success {
-    background-color: #22c55e;
+    background-color: #10b981;
 }
 
 .toast.error {
@@ -181,7 +184,7 @@ body {
 }
 
 .toast.info {
-    background-color: #3b82f6;
+    background-color: #2563eb;
 }
 
 @keyframes slideIn {
