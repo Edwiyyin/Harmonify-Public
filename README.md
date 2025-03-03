@@ -57,27 +57,26 @@ go run main.go
 ## Structure
 
 ```
-Harmonify/
+Directory structure:
+└── harmonify-public/
     ├── README.md
     ├── go.mod
     ├── main.go
-    ├── data/
-    │   ├──playlists/
-    │   │    ├──<username>_playlist.json
-    │   │    └──default.json
-    │   │   
-    │   ├──configure.json
-    │   └──users.json
     ├── src/
     │   ├── api/
     │   │   ├── api.go
-    │   │   ├── apicalc.go
+    │   │   ├── calc.go
     │   │   └── struct.go
+    │   ├── auth/
+    │   │   └── auth.go
     │   ├── calc/
     │   │   └── calc.go
     │   └── handlers/
-    │       ├── handecalc.go
-    │       └── handle.go
+    │       ├── calc.go
+    │       ├── login.go
+    │       ├── lyrics.go
+    │       ├── page.go
+    │       └── playlist.go
     ├── static/
     │   ├── css/
     │   │   ├── faq.css
@@ -86,6 +85,7 @@ Harmonify/
     │   │   ├── lyrics.css
     │   │   ├── playlist.css
     │   │   └── search.css
+    │   ├── docs/
     │   ├── img/
     │   └── js/
     │       ├── home.js
@@ -96,13 +96,12 @@ Harmonify/
         ├── error.html
         ├── faq.html
         ├── home.html
-        ├──login.html
+        ├── login.html
         ├── lyrics.html
         ├── playlist-lyrics.html
         ├── playlist.html
         ├── register.html
         └── search.html
-
 
 ```
 
